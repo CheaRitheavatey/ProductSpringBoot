@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -15,4 +16,6 @@ public class ProductService {
 
     public List<Product> getAllProduct() {return productRepository.findAll();}
     public List<Product> getProductById(Long id) {return productRepository.findByCategoryId(id);}
+
+
 }
