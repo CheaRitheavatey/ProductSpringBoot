@@ -58,7 +58,7 @@ function App() {
       <div className='row align-items-center mb-4'>
 
         {/* div for filter */}
-        <div className='col-md3 col-sm-2 mb-2'>
+        <div className='col-md3 col-sm-12 mb-2'>
           <p><CategoryFilter categories={categories} onSelect={handleCategorySelect}></CategoryFilter></p>
         </div>
 
@@ -68,7 +68,7 @@ function App() {
         </div>
 
         {/* div for category asc and dsc */}
-        <div className='col-md-4 col-sm-2 mb-2'>
+        <div className='col-md-4 col-sm-12 mb-2'>
           <select className='form-control' onChange={handleSortChange}>
             <option value="asc">Sort By Price: Low to High</option>
             <option value="dsc">Sort By Price: High to Low</option>
