@@ -1,12 +1,13 @@
 package com.example.hopeIDontFlop.config;
 import java.util.Arrays;
 
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.stereotype.Component;
+
 import com.example.hopeIDontFlop.model.Category;
 import com.example.hopeIDontFlop.model.Product;
 import com.example.hopeIDontFlop.repository.CategoryRepository;
 import com.example.hopeIDontFlop.repository.ProductRepository;
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.stereotype.Component;
 
 
 @Component
@@ -46,7 +47,7 @@ public class DataSeeder implements CommandLineRunner {
         Product sugar = new Product();
         sugar.setName("Smart Phone");
         sugar.setDescription("Latest model smartphone with amazing features");
-        sugar.setImgUrl("img/claypot.png");
+        sugar.setImgUrl("https://placehold.co/600x400");
         sugar.setPrice(699.99);
         sugar.setCategory(electronic);
 
