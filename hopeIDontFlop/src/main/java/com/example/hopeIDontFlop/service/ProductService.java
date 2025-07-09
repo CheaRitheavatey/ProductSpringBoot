@@ -10,8 +10,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.data.domain.Pageable;
 
-import java.awt.print.Pageable;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -125,7 +125,7 @@ public class ProductService {
 
     // search by name
     public Page<ProductDto> searchByName(String name, int page, int size) {
-        Pageable pageable = (Pageable) PageRequest.of(page,size);
+        Pageable pageable = PageRequest.of(page,size);
         // convert to dto
         return productRepository.findByNameContainingIgnoreCase(name, pageable).map(this::mapToDto);
     }
@@ -133,7 +133,7 @@ public class ProductService {
     // search by category
     public Page<ProductDto> filterByCategory(Long categoryId, int page, int size) {
         // build request
-        Pageable pageable = (Pageable) PageRequest.of(page,size);
+        Pageable pageable = PageRequest.of(page,size);
         return productRepository.findByCategoryId(categoryId, pageable).map(this::mapToDto);
     }
 
