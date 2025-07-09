@@ -6,6 +6,7 @@ import com.example.hopeIDontFlop.repository.ProductRepository;
 import com.example.hopeIDontFlop.service.ProductService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -52,5 +53,29 @@ public class ProductController {
         product.setCategory(dto.getCategory());
 
         return product;
+    }
+
+    // delete DELETE
+    @DeleteMapping(path = "/{id}")
+    public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
+        productService.deleteProduct(id);
+        return ResponseEntity.noContent().build();
+
+    }
+    // update PUT
+    @PutMapping(path = "/{id}")
+    public ResponseEntity<ProductDto> updateProduct(@PathVariable Long id, @Valid @RequestBody ProductDto dto) {
+        ProductDto updated = productService.updateProduct(id, dto);
+        return ResponseEntity.ok(updated);
+
+    }
+
+    // paginated filter
+    @GetMapping("/search")
+    public Page<ProductDto> searchProduct(
+            @RequestParam String name,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size) {
+        return productService.searchProducts(name, page, size);
     }
 }
