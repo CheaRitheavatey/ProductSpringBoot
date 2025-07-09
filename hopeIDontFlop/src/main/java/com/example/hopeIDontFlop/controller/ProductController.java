@@ -4,6 +4,7 @@ import com.example.hopeIDontFlop.dto.ProductDto;
 import com.example.hopeIDontFlop.model.Product;
 import com.example.hopeIDontFlop.repository.ProductRepository;
 import com.example.hopeIDontFlop.service.ProductService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +20,6 @@ import java.util.List;
 public class ProductController {
     // data field
     private final ProductService productService;
-    private final ProductRepository productRepository;
 
     // get all product
     @GetMapping()
@@ -37,8 +37,20 @@ public class ProductController {
     }
 
     @PostMapping
-    public ResponseEntity<Product> createProduct(@RequestBody Product product) {
-        Product savedProduct = productRepository.save(product);
-        return ResponseEntity.status(HttpStatus.CREATED).body(savedProduct);
+    public ResponseEntity<ProductDto> createProduct(@Valid @RequestBody ProductDto productdto) {
+        Product product = maptoEnity(productdto);
+        ProductDto saved = productService.createProduct(product);
+        return new ResponseEntity<>(saved, HttpStatus.CREATED);
+    }
+
+    private Product maptoEnity (ProductDto dto) {
+        Product product = new Product();
+        product.setId(dto.getId());
+        product.setName(dto.getName());
+        product.setDescription(dto.getDescription());
+        product.setPrice(dto.getPrice());
+        product.setCategory(dto.getCategory());
+
+        return product;
     }
 }

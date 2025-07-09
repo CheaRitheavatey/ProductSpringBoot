@@ -2,7 +2,9 @@ package com.example.hopeIDontFlop.service;
 
 import com.example.hopeIDontFlop.dto.ProductDto;
 import com.example.hopeIDontFlop.exception.ResourceNotFoundException;
+import com.example.hopeIDontFlop.model.Category;
 import com.example.hopeIDontFlop.model.Product;
+import com.example.hopeIDontFlop.repository.CategoryRepository;
 import com.example.hopeIDontFlop.repository.ProductRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,7 +16,8 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class ProductService {
     // data field
-    private ProductRepository productRepository;
+    private final ProductRepository productRepository;
+    private final CategoryRepository categoryRepository;
 
 
     public List<ProductDto> getAllProduct() {return productRepository.findAll()
@@ -36,6 +39,22 @@ public class ProductService {
 
     }
 
+    private Product mapToEntity(ProductDto productDto) {
+        Product product = new Product();
+        product.setId(productDto.getId());
+        product.setName(productDto.getName());
+        product.setDescription(productDto.getDescription());
+        product.setPrice(productDto.getPrice());
+        product.setCategory(productDto.getCategory());
+
+        Category category = categoryRepository.findById(productDto.getCategory().getId())
+                .orElseThrow(() -> new ResourceNotFoundException("Category with ID: " + productDto.getId() + " not found"));
+
+        product.setCategory(category);
+        return product;
+
+    }
+
     public ProductDto getProductById(Long id) {
         Product product = productRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Product with " + id + " is not found"));
@@ -51,6 +70,7 @@ public class ProductService {
 
     public ProductDto createProduct(Product product) {
         Product savedProduct = productRepository.save(product);
+        Product saved = productRepository.save(product);
         return mapToDto(savedProduct);
     }
 
