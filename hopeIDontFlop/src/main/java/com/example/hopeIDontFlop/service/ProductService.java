@@ -123,4 +123,24 @@ public class ProductService {
         return productRepository.findAll((org.springframework.data.domain.Pageable) pageable).map(this::mapToDto);
     }
 
+    // search by name
+    public Page<ProductDto> searchByName(String name, int page, int size) {
+        Pageable pageable = (Pageable) PageRequest.of(page,size);
+        // convert to dto
+        return productRepository.findByNameContainingIgnoreCase(name, pageable).map(this::mapToDto);
+    }
+
+    // search by category
+    public Page<ProductDto> filterByCategory(Long categoryId, int page, int size) {
+        // build request
+        Pageable pageable = (Pageable) PageRequest.of(page,size);
+        return productRepository.findByCategoryId(categoryId, pageable).map(this::mapToDto);
+    }
+
+    // search name and category
+    public Page<ProductDto> searchByNameAndCategory(String name, Long categoryId, int page, int size) {
+        Pageable pageable = (Pageable) PageRequest.of(page, size);
+        return productRepository.searchByNameAndCategory(name, categoryId, pageable).map(this::mapToDto);
+    }
+
 }

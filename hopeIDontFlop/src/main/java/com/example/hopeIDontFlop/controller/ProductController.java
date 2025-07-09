@@ -73,9 +73,25 @@ public class ProductController {
     // paginated filter
     @GetMapping("/search")
     public Page<ProductDto> searchProduct(
-            @RequestParam String name,
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) Long categoryId,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "5") int size) {
-        return productService.searchProducts(name, page, size);
+
+        if (name != null && categoryId != null) {
+            return productService.searchByNameAndCategory(name, categoryId, page, size);
+
+        } else if (name != null) {
+            return productService.searchByName(name, page, size);
+
+        } else if (categoryId != null) {
+            return  productService.filterByCategory(categoryId, page, size);
+
+        } else {
+            return productService.getAllPaginated(page, size);
+        }
+        
     }
+
+
 }
