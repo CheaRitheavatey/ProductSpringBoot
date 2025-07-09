@@ -1,5 +1,6 @@
 package com.example.hopeIDontFlop.controller;
 
+import com.example.hopeIDontFlop.dto.ProductDto;
 import com.example.hopeIDontFlop.model.Product;
 import com.example.hopeIDontFlop.repository.ProductRepository;
 import com.example.hopeIDontFlop.service.ProductService;
@@ -22,11 +23,18 @@ public class ProductController {
 
     // get all product
     @GetMapping()
-    public List<Product> getAllProduct() {return  productService.getAllProduct();}
+    public List<ProductDto> getAllProduct() {return  productService.getAllProduct();}
 
+    // get api/product/{id}
+    @GetMapping(path = "/{id}")
+    public ResponseEntity<ProductDto> getProductById(@PathVariable Long id) {
+        return ResponseEntity.ok(productService.getProductById(id));
+    }
     // get all product by category
     @GetMapping(path = "category/{categoryId}")
-    public  List<Product> getAllProductByCategory(@PathVariable Long categoryId) {return  productService.getProductById(categoryId);}
+    public  List<ProductDto> getAllProductByCategory(@PathVariable Long categoryId) {
+        return  productService.getProductByCategoryId(categoryId);
+    }
 
     @PostMapping
     public ResponseEntity<Product> createProduct(@RequestBody Product product) {
