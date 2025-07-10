@@ -5,7 +5,8 @@ import lombok.Data;
 
 @Entity
 @Data
-public class Product {
+public class
+Product {
     // data field
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
